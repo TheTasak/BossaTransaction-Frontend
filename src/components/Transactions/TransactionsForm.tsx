@@ -1,6 +1,7 @@
 import './TransactionsForm.scss';
 import Transaction from "../helpers/Models";
 import {useState} from "react";
+import {createResource} from "../../config";
 
 const emptyTransaction: Transaction = {
     name: "",
@@ -14,7 +15,9 @@ const TransactionsForm = () => {
     const [transactionData, setTransactionData] = useState<Transaction>(emptyTransaction);
 
     const sendData = () => {
-
+        const response = createResource("/transactions", transactionData);
+        console.log(response);
+        setTransactionData(emptyTransaction);
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Transaction from "./components/helpers/Models";
 
 const databaseConfig : string = "http://127.0.0.1:3000";
 
@@ -35,7 +36,7 @@ const updateResource = async (type: string, data: resourceParams, callback?: any
     callback(response.data);
 }
 
-const createResource = async (type: string, data: resourceParams, callback?: any) => {
+const createResource = async (type: string, data: Transaction, callback?: any) => {
     const response = await instance.post(type, data);
     if (typeof callback === undefined) {
         return response.data;
@@ -43,4 +44,4 @@ const createResource = async (type: string, data: resourceParams, callback?: any
     callback(response.data);
 }
 
-export {getResource};
+export {getResource, deleteResource, updateResource, createResource};

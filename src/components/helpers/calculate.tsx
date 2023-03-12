@@ -1,5 +1,4 @@
 import Transaction from "./models";
-import transactions from "../Transactions/Transactions";
 
 class WalletShare {
     transactions : Transaction[];

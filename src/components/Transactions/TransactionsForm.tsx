@@ -1,5 +1,5 @@
 import './TransactionsForm.scss';
-import Transaction from "../helpers/Models";
+import Transaction from "../helpers/models";
 import {useState} from "react";
 import {createResource} from "../../config";
 

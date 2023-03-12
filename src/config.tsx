@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Transaction from "./components/helpers/Models";
+import Transaction from "./components/helpers/models";
 
 const databaseConfig : string = "http://127.0.0.1:3000";
 
@@ -28,7 +28,7 @@ const deleteResource = async (type: string, callback?: any, params?: resourcePar
     callback(response);
 }
 
-const updateResource = async (type: string, data: resourceParams, callback?: any) => {
+const updateResource = async (type: string, data: Transaction, callback?: any) => {
     const response = await instance.put(type, data);
     if (typeof callback === undefined) {
         return response.data;

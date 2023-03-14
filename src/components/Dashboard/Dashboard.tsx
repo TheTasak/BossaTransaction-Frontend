@@ -3,6 +3,7 @@ import Transaction from "../helpers/models";
 import {getResource} from "../../config";
 import {calculateCurrentShares, WalletShare} from "../helpers/calculate";
 import './Dashboard.scss';
+import Tooltip from "../common/Tooltip";
 
 import {ResponsiveTreeMap} from '@nivo/treemap';
 
@@ -27,40 +28,26 @@ const Dashboard = () => {
             {
                 shares !== undefined &&
                 <ResponsiveTreeMap
-                    data={shares}
+                    data={
+                        {
+                            name: "root",
+                            children: shares
+                        }
+                    }
+                    theme={
+                        {
+                            fontSize: 20
+                        }
+                    }
+                    tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}
                     identity="name"
+                    leavesOnly={true}
                     value="totalPrice"
-                    valueFormat=".02s"
+                    valueFormat=">-.02s"
                     margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                    label="id"
                     labelSkipSize={12}
-                    labelTextColor={{
-                        from: 'color',
-                        modifiers: [
-                            [
-                                'darker',
-                                1.2
-                            ]
-                        ]
-                    }}
                     parentLabelPosition="left"
-                    parentLabelTextColor={{
-                        from: 'color',
-                        modifiers: [
-                            [
-                                'darker',
-                                2
-                            ]
-                        ]
-                    }}
-                    borderColor={{
-                        from: 'color',
-                        modifiers: [
-                            [
-                                'darker',
-                                0.1
-                            ]
-                        ]
-                    }}
                 />
             }
 

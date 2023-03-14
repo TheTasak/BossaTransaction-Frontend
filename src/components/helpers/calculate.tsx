@@ -7,9 +7,9 @@ export class WalletShare {
     totalPrice : number;
     earnings : number;
 
-    private calculateShares(): number {
+    private calculateShares(year?: number): number {
         let shareSum : number = 0;
-        this.transactions.map(transaction => {
+        this.transactions.filter(transaction => (year !== undefined && new Date(transaction.date).getFullYear() > year) || year === undefined).map(transaction => {
             if (transaction.t_type === "BUY") {
                 shareSum += transaction.amount;
             } else if (transaction.t_type === "SELL") {
@@ -31,9 +31,9 @@ export class WalletShare {
         return priceSum;
     }
 
-    private calculateEarnings(): number {
+    private calculateEarnings(year?: number): number {
         let earningsSum : number = 0;
-        let transactionShares = [...this.transactions];
+        let transactionShares : Transaction[] = structuredClone(this.transactions);
 
         this.transactions.filter(transaction => transaction.t_type === "SELL").map(transaction => {
             let currentSharesAbleToSell = transactionShares.filter(transaction => transaction.t_type === "BUY" && transaction.amount > 0);
@@ -41,13 +41,19 @@ export class WalletShare {
             let i : number = 0;
             while (sharesToSell > 0) {
                 if (currentSharesAbleToSell[i] !== undefined) {
+                    const transactionYear = new Date(transaction.date).getFullYear();
+
                     if (currentSharesAbleToSell[i].amount >= sharesToSell) {
-                        earningsSum += (currentSharesAbleToSell[i].price * sharesToSell) - (transaction.price * sharesToSell);
+                        if ((year !== undefined && year === transactionYear) || year === undefined) {
+                            earningsSum += (currentSharesAbleToSell[i].price * sharesToSell) - (transaction.price * sharesToSell);
+                        }
                         currentSharesAbleToSell[i].amount -= sharesToSell;
                         sharesToSell = 0;
                         break;
                     } else {
-                        earningsSum += (currentSharesAbleToSell[i].price * currentSharesAbleToSell[i].amount) - (transaction.price * currentSharesAbleToSell[i].amount);
+                        if ((year !== undefined && year === transactionYear) || year === undefined) {
+                            earningsSum += (currentSharesAbleToSell[i].price * currentSharesAbleToSell[i].amount) - (transaction.price * currentSharesAbleToSell[i].amount);
+                        }
                         sharesToSell -= currentSharesAbleToSell[i].amount;
                         currentSharesAbleToSell[i].amount = 0;
                     }
@@ -58,15 +64,21 @@ export class WalletShare {
             }
         });
 
+
         return earningsSum;
     }
 
-    getAveragePrice(): string {
-        return (this.totalPrice / this.shares).toFixed(2);
+    getAveragePrice(): number {
+        return parseFloat((this.totalPrice / this.shares).toFixed(2));
     }
+
+    getEarningsByCurrentPrice(price: number): number {
+        return parseFloat((this.shares * price - this.shares * this.getAveragePrice()).toFixed(2));
+    }
+
     constructor(transactions : Transaction[]) {
         this.name = transactions[0].name;
-        this.transactions = transactions;
+        this.transactions = [...transactions];
         this.shares = this.calculateShares();
         this.totalPrice = this.calculateTotalSum();
         this.earnings = this.calculateEarnings();

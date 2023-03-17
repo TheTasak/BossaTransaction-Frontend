@@ -6,7 +6,7 @@ const uniqueId = (transaction : Transaction) : string => {
     return transaction.amount.toString() + transaction.price.toString() + Date.now();
 }
 const TransactionsList = ({data}: {data: Transaction[]}) => {
-    const tableHeaders = useMemo( () => [
+    const columns = useMemo( () => [
         {
             Header: 'Date',
             accessor: 'date'
@@ -33,6 +33,7 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
     return (
         <div>
             <Table
+                columns={columns}
                 data={data}
             />
         </div>

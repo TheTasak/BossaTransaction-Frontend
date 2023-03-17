@@ -2,6 +2,7 @@ import TransactionsForm from "./TransactionsForm";
 import {useState} from "react";
 import {csvToArray, transformTransactionArray} from "../helpers/helpers";
 import Transaction from "../helpers/models";
+import TransactionsList from "./TransactionsList";
 
 
 const Transactions = () => {
@@ -35,7 +36,7 @@ const Transactions = () => {
     return (
         <div>
             <input type="file" onChange={handleFileChange} name="file" id="file" />
-            <TransactionsForm />
+            { fileContent.length > 0 && <TransactionsList data={fileContent} /> }
         </div>
     )
 }

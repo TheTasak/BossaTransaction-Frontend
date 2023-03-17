@@ -1,15 +1,16 @@
 import TransactionsForm from "./TransactionsForm";
 import {useState} from "react";
-import {csvToArray} from "../helpers/helpers";
+import {csvToArray, transformTransactionArray} from "../helpers/helpers";
+import Transaction from "../helpers/models";
 
 
 const Transactions = () => {
-    const [fileContent, setFileContent] = useState("");
+    const [fileContent, setFileContent] = useState<Transaction[]>([]);
     const handleFileChange = (e: { target: { files: any; }; }) => {
         if (e.target.files.length) {
             const inputFile = e.target.files[0];
             const inputFileExtension = inputFile?.type.split("/")[1];
-            if (inputFileExtension !== ".csv") {
+            if (inputFileExtension !== "csv") {
                 console.error("The file is not a csv file!");
                 return;
             }
@@ -19,12 +20,17 @@ const Transactions = () => {
     const parseFile = (file: Blob) => {
         const reader = new FileReader();
         reader.onload = (e) => {
-            const text = e.target?.result;
-            const data = csvToArray(text, ",");
-            setFileContent(data);
+            const text = e.target?.result as string;
+            if (text != undefined) {
+                const arr = csvToArray(text, ";");
+                const transactionArray = transformTransactionArray(arr);
+                setFileContent(transactionArray);
+            }
         }
-        reader.readAsText(file);
+        reader.readAsText(file, 'UTF-8');
     }
+
+    console.log(fileContent)
 
     return (
         <div>

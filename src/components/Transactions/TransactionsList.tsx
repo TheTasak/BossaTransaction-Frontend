@@ -15,7 +15,11 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
         {
             Header: '',
             accessor: 'id',
-            Cell: (tableProps: { row: { index: number; }; }) => (
+            Cell: (tableProps: {
+                row: {
+                    values: any; index: number;
+                };
+            }) => (
                 <div>
                     <input type="checkbox" defaultChecked={!data[tableProps.row.index].omit} onChange={() => changeOmitItem(tableProps.row.index)}/>
                 </div>
@@ -39,7 +43,12 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
         },
         {
             Header: 'Price',
-            accessor: 'price'
+            accessor: 'price',
+            Cell: (tableProps) => (
+                <div>
+                    {tableProps.row.values.price.toFixed(2)}
+                </div>
+            )
         }
     ], [data]);
 

@@ -4,7 +4,8 @@ interface Transaction {
     amount: number,
     price: number,
     t_type: string,
-    date: string
+    date: string,
+    omit?: boolean,
 }
 
 export const emptyTransaction = {
@@ -13,6 +14,7 @@ export const emptyTransaction = {
     price: 0,
     t_type: "",
     date: "",
+    omit: false
 }
 
 export default Transaction;

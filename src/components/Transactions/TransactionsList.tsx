@@ -1,7 +1,7 @@
 import Transaction from "../helpers/models";
 import Table from "../common/Table";
 import React, {useMemo} from "react";
-import transactions from "./Transactions";
+import './TransactionList.scss';
 
 const uniqueId = (transaction : Transaction) : string => {
     return transaction.amount.toString() + transaction.price.toString() + Date.now();
@@ -57,7 +57,7 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
     }
 
     return (
-        <div>
+        <div className="transactions-list">
             <Table
                 columns={columns}
                 data={data}

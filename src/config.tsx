@@ -44,4 +44,12 @@ const createResource = async (type: string, data: Transaction, callback?: any) =
     callback(response.data);
 }
 
-export {getResource, deleteResource, updateResource, createResource};
+const createResources = async (type: string, data: Transaction[], callback?: any) => {
+    const response = await instance.post(type, data);
+    if (typeof callback === undefined) {
+        return response.data;
+    }
+    callback(response.data);
+}
+
+export {getResource, deleteResource, updateResource, createResource, createResources};

@@ -2,6 +2,7 @@ import Transaction from "../helpers/models";
 import Table from "../common/Table";
 import React, {useMemo} from "react";
 import './TransactionList.scss';
+import {createResources} from "../../config";
 
 const uniqueId = (transaction : Transaction) : string => {
     return transaction.amount.toString() + transaction.price.toString() + Date.now();
@@ -15,11 +16,8 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
         {
             Header: '',
             accessor: 'id',
-            Cell: (tableProps: {
-                row: {
-                    values: any; index: number;
-                };
-            }) => (
+            width: 10,
+            Cell: (tableProps: { row: { values: any; index: number; }; }) => (
                 <div>
                     <input type="checkbox" defaultChecked={!data[tableProps.row.index].omit} onChange={() => changeOmitItem(tableProps.row.index)}/>
                 </div>
@@ -44,7 +42,7 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
         {
             Header: 'Price',
             accessor: 'price',
-            Cell: (tableProps) => (
+            Cell: (tableProps: { row: { values: { price: number; }; }; }) => (
                 <div>
                     {tableProps.row.values.price.toFixed(2)}
                 </div>
@@ -53,7 +51,9 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
     ], [data]);
 
     const submitTransactions = () => {
-        console.log("DATA:" + data);
+        const submitData = data.filter(transaction => !transaction.omit);
+        const response = createResources("/transactions", submitData);
+        console.log(response);
     }
 
     return (

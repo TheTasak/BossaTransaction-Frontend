@@ -31,8 +31,6 @@ const Transactions = () => {
         reader.readAsText(file, 'UTF-8');
     }
 
-    console.log(fileContent)
-
     return (
         <div>
             <input type="file" onChange={handleFileChange} name="file" id="file" />

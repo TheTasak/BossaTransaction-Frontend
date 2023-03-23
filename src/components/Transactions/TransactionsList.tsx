@@ -3,11 +3,14 @@ import Table from "../common/Table";
 import React, {useMemo} from "react";
 import './TransactionList.scss';
 import {createResources} from "../../config";
+import {useNavigate} from "react-router-dom";
 
 const uniqueId = (transaction : Transaction) : string => {
     return transaction.amount.toString() + transaction.price.toString() + Date.now();
 }
 const TransactionsList = ({data}: {data: Transaction[]}) => {
+    const navigate = useNavigate();
+
     const changeOmitItem = (index: number) => {
         data[index].omit = !data[index].omit;
     }
@@ -54,6 +57,7 @@ const TransactionsList = ({data}: {data: Transaction[]}) => {
         const submitData = data.filter(transaction => !transaction.omit);
         const response = createResources("/transactions", submitData);
         console.log(response);
+        navigate('/transactions');
     }
 
     return (

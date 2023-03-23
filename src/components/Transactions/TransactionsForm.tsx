@@ -1,31 +1,40 @@
 import './TransactionsForm.scss';
-import Transaction from "../helpers/models";
-import {useState} from "react";
-import {createResource} from "../../config";
+import Transaction, {emptyTransaction} from "../helpers/models";
+import React, {useEffect, useState} from "react";
+import {createResource, getResource, updateResource} from "../../config";
+import {useParams} from "react-router-dom";
 
-const emptyTransaction: Transaction = {
-    name: "",
-    amount: 0,
-    price: 0,
-    t_type: "",
-    date: ""
-};
 
 const TransactionsForm = () => {
     const [transactionData, setTransactionData] = useState<Transaction>(emptyTransaction);
 
+    const { id } = useParams();
     const sendData = () => {
-        const response = createResource("/transactions", transactionData);
-        console.log(response);
+        if (id !== undefined) {
+            updateResource("/transactions", transactionData);
+        } else {
+            createResource("/transactions", transactionData);
+        }
         setTransactionData(emptyTransaction);
+    }
+
+    const getData = () => {
+        if (id !== undefined) {
+            getResource(`/transactions/${id}`, setTransactionData);
+        }
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTransactionData({...transactionData, [event.target.name]: event.target.value});
-        console.log(transactionData)
     }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
         <div className="transactions-form">
+            <p>{ id !== undefined ? "Update transaction" : "Add a new transaction"}</p>
             <div className="input-group">
                 <label htmlFor="name">Name</label>
                 <input

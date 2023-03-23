@@ -12,7 +12,7 @@ function processColumns(columns: Array<any>, data: Array<any>) {
     for (let td in data[0]) {
         if (typeof data[0][td] === "number" && !("Cell" in columns[columnIndex])) {
             columns[columnIndex]["Cell"] = (props: any) => (
-                <>{props.value.toLocaleString("en-IN")}</>
+                <>{props.value.toLocaleString()}</>
             );
         }
         columnIndex++;

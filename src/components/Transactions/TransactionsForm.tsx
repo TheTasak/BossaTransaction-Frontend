@@ -2,20 +2,21 @@ import './TransactionsForm.scss';
 import Transaction, {emptyTransaction} from "../helpers/models";
 import React, {useEffect, useState} from "react";
 import {createResource, getResource, updateResource} from "../../config";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 const TransactionsForm = () => {
     const [transactionData, setTransactionData] = useState<Transaction>(emptyTransaction);
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const sendData = () => {
         if (id !== undefined) {
             updateResource("/transactions", transactionData);
         } else {
             createResource("/transactions", transactionData);
         }
-        setTransactionData(emptyTransaction);
+        navigate('/transactions');
     }
 
     const getData = () => {

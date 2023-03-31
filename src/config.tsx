@@ -20,12 +20,9 @@ const getResource = async (type: string, callback?: any, params?: resourceParams
     callback(response.data);
 }
 
-const deleteResource = async (type: string, callback?: any, params?: resourceParams) => {
+const deleteResource = async (type: string, params?: resourceParams) => {
     const response = await instance.delete(type, { params: params });
-    if (typeof callback === undefined) {
-        return response;
-    }
-    callback(response);
+    return response;
 }
 
 const updateResource = async (type: string, data: Transaction, callback?: any) => {

@@ -86,12 +86,16 @@ export class WalletShare {
 
 }
 
-export const calculateCurrentShares = (data: Transaction[]) : WalletShare[] => {
-    let sortedTransactions = data.filter(transaction => transaction.t_type === "BUY" || transaction.t_type === "SELL").sort((a,b) => {
+export const sortTransactionsByDate = (data: Transaction[]) : Transaction[] => {
+    return data.filter(transaction => transaction.t_type === "BUY" || transaction.t_type === "SELL").sort((a,b) => {
         const dateA : Date = new Date(a.date);
         const dateB : Date = new Date(b.date);
         return dateA.getTime() - dateB.getTime();
     });
+}
+
+export const calculateCurrentShares = (data: Transaction[]) : WalletShare[] => {
+    let sortedTransactions = sortTransactionsByDate(data);
 
     let transactionShares = sortedTransactions.map(transaction => transaction.name).filter((value, index, array) => array.indexOf(value) === index);
     let shares : WalletShare[] = [];

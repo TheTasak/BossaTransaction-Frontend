@@ -26,29 +26,54 @@ const Dashboard = () => {
     return (
         <div className="dashboard">
             {
-                shares !== undefined &&
-                <ResponsiveTreeMap
-                    data={
-                        {
-                            name: "root",
-                            children: shares
-                        }
-                    }
-                    theme={
-                        {
-                            fontSize: 20
-                        }
-                    }
-                    tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}
-                    identity="name"
-                    leavesOnly={true}
-                    value="totalPrice"
-                    valueFormat=">-.02s"
-                    margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-                    label="id"
-                    labelSkipSize={12}
-                    parentLabelPosition="left"
-                />
+                shares !== undefined && (
+                    <div className="chart-div">
+                        <ResponsiveTreeMap
+                            data={
+                                {
+                                    name: "root",
+                                    children: shares
+                                }
+                            }
+                            theme={
+                                {
+                                    fontSize: 20
+                                }
+                            }
+                            tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}
+                            identity="name"
+                            leavesOnly={true}
+                            value="totalPrice"
+                            valueFormat=">-.02s"
+                            margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                            label="id"
+                            labelSkipSize={12}
+                            parentLabelPosition="left"
+                        />
+                        <ResponsiveTreeMap
+                            data={
+                                {
+                                    name: "root",
+                                    children: shares
+                                }
+                            }
+                            theme={
+                                {
+                                    fontSize: 20
+                                }
+                            }
+                            tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}
+                            identity="name"
+                            leavesOnly={true}
+                            value="earnings"
+                            valueFormat=">-.02s"
+                            margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                            label="id"
+                            labelSkipSize={12}
+                            parentLabelPosition="left"
+                        />
+                    </div>
+                )
             }
 
         </div>

@@ -12,7 +12,7 @@ const TransactionsForm = () => {
     const navigate = useNavigate();
     const sendData = () => {
         if (id !== undefined) {
-            updateResource("/transactions", transactionData);
+            updateResource(`/transactions/${id}`, transactionData);
         } else {
             createResource("/transactions", transactionData);
         }
@@ -35,7 +35,7 @@ const TransactionsForm = () => {
 
     return (
         <div className="transactions-form">
-            <p>{ id !== undefined ? "Update transaction" : "Add a new transaction"}</p>
+            <p>{ id !== undefined ? "Update transaction" : "Add a new transaction" }</p>
             <div className="input-group">
                 <label htmlFor="name">Name</label>
                 <input

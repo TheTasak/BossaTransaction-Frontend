@@ -1,4 +1,17 @@
 .dashboard {
-  height: 50vh;
-  width: 50%;
+  height: 100vh;
+  width: 100%;
+
+  .chart-div {
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    & > div {
+      max-width: 500px;
+    }
+  }
 }

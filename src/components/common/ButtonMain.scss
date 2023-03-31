@@ -1,0 +1,15 @@
+.button-main {
+  display: inline-block;
+  transition: 0.3s ease-in-out;
+  user-select: none;
+  padding: 0.4em;
+  background-color: #f0f0f0;
+  color: #222222;
+  font-weight: 500;
+  border-radius: 10px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #e0e0e0;
+  }
+}

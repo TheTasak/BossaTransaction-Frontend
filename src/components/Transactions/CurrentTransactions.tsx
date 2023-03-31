@@ -4,6 +4,9 @@ import {deleteResource, getResource} from "../../config";
 import Table from "../common/Table";
 import {useNavigate} from "react-router-dom";
 import {sortTransactionsByDate} from "../helpers/calculate";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import ButtonMain from "../common/ButtonMain";
 
 const CurrentTransactions = () => {
     const [transactions, setTransactions] = useState<Transaction[] | undefined>(undefined);
@@ -72,7 +75,7 @@ const CurrentTransactions = () => {
                         onClick={() => setActionsSelect(tableProps.row.index)}
                         onBlur={() => setActionsSelect(undefined)}
                     >
-                        click
+                        <FontAwesomeIcon icon={faEllipsisVertical} color="#444444" />
                     </div>
                     {
                         actionsSelect === tableProps.row.index &&
@@ -101,7 +104,7 @@ const CurrentTransactions = () => {
                     data={transactions}
                 />
             }
-            <button type="button" onClick={() => navigate("/transaction")}>Add a New Transaction</button>
+            <ButtonMain text="Add a New Transaction" onClick={() => navigate("/transaction")} />
         </div>
     )
 }

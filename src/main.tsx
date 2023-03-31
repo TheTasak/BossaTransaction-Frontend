@@ -8,34 +8,40 @@ import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 import CurrentTransactions from "./components/Transactions/CurrentTransactions";
 import TransactionsForm from "./components/Transactions/TransactionsForm";
+import Layout from "./components/common/Layout";
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <Dashboard />
-    },
-    {
-        path: '/login',
-        element: <Login />
-    },
-    {
-        path: '/transactions',
-        element: <CurrentTransactions />,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: '/transactions/load',
-        element: <Transactions />,
-        errorElement: <ErrorPage />
-    },
-    {
-        path: '/transaction',
-        element: <TransactionsForm />
-    },
-    {
-        path: '/transaction/:id',
-        element: <TransactionsForm />,
-        errorElement: <ErrorPage />
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <Dashboard />
+            },
+            {
+                path: '/login',
+                element: <Login />
+            },
+            {
+                path: '/transactions',
+                element: <CurrentTransactions />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: '/transactions/load',
+                element: <Transactions />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: '/transaction',
+                element: <TransactionsForm />
+            },
+            {
+                path: '/transaction/:id',
+                element: <TransactionsForm />,
+                errorElement: <ErrorPage />
+            }
+        ]
     }
 ]);
 

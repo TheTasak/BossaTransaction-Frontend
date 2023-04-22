@@ -1,21 +1,23 @@
+@import "../../colors";
+
 .custom-table {
   width: 100%;
+  color: $fontDark;
   border-spacing: 0;
   text-align: right;
-  font-size: 16px;
-  color: black;
+  font-size: clamp(14px, 2vw, 18px);
   margin-bottom: 1rem;
 
   tr {
     transition: 0.2s background-color ease-in-out;
     &:nth-child(even) {
-      background-color: #dadada;
+      background-color: $backgroundLightAlt;
     }
     &:nth-child(odd) {
-      background-color: #e0e0e0;
+      background-color: $backgroundLightAlt2;
     }
     &:hover {
-      background-color: #d0d0d0;
+      background-color: $backgroundLightAltHover;
     }
 
     td {
@@ -39,12 +41,17 @@
   }
 
   th {
+    transition: 0.3s background-color ease-in;
     user-select: none;
     padding: 15px;
-    background-color: #f0f0f0;
+    background-color: $backgroundLight;
     text-align: center;
     font-weight: 500;
-    border-right: 1px solid #e0e0e0;
-    border-bottom: 2px solid #dadada;
+    border-right: 1px solid $borderLight;
+    border-bottom: 2px solid $borderLightAlt;
+
+    &:hover {
+      background-color: $borderLight;
+    }
   }
 }

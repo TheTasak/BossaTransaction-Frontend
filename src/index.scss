@@ -1,3 +1,9 @@
+@import "colors";
+
+body {
+  margin: 0;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,7 +11,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: $background;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,16 +33,16 @@
     top: 40px;
     min-width: 230px;
     z-index: 1;
-    border: 1px solid #eaeaea;
-    background-color: #f0f0f0;
+    border: 1px solid $borderLight;
+    background-color: $backgroundLight;
     padding: 8px 0;
     border-radius: 5px;
 
     button {
       width: 100%;
-      background-color: #f0f0f0;
+      background-color: $backgroundLight;
       transition: background-color 0.2s ease-out;
-      color: #444444;
+      color: $fontDark;
       padding: 6px 24px;
       font-weight: 400;
       font-size: 16px;
@@ -45,7 +51,7 @@
       text-align: left;
 
       &:hover {
-        background-color: #dadada;
+        background-color: $backgroundLightHover;
       }
     }
   }

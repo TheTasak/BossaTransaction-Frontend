@@ -35,7 +35,7 @@ const TransactionsForm = () => {
 
     return (
         <div className="transactions-form">
-            <p>{ id !== undefined ? "Update transaction" : "Add a new transaction" }</p>
+            <p className="form-header">{ id !== undefined ? "Update transaction" : "Add a new transaction" }</p>
             <div className="input-group">
                 <label htmlFor="name">Name</label>
                 <input

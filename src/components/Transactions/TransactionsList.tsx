@@ -1,7 +1,7 @@
 import Transaction from "../helpers/models";
 import Table from "../common/Table";
 import React, {useMemo} from "react";
-import './TransactionList.scss';
+import './TransactionsList.scss';
 import {createResources} from "../../config";
 import {useNavigate} from "react-router-dom";
 

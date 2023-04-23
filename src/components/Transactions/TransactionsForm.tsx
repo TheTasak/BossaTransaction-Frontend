@@ -82,7 +82,7 @@ const TransactionsForm = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className="button-group">
                 <button type="button" onClick={sendData}>Submit</button>
             </div>
         </div>

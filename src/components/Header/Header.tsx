@@ -31,7 +31,7 @@ const Header = () => {
     }, []);
 
     return (
-        <div className="header" >
+        <header className="header" >
             <HeaderMain onClick={() => navigate("/")} />
             {
                 windowWidth > headerMenuWidthMax && (
@@ -71,7 +71,7 @@ const Header = () => {
                     </div>
                 )
             }
-        </div>
+        </header>
     )
 }
 

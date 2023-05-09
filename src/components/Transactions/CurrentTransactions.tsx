@@ -75,7 +75,7 @@ const CurrentTransactions = () => {
                         onClick={() => setActionsSelect(tableProps.row.index)}
                         onBlur={() => setActionsSelect(undefined)}
                     >
-                        <FontAwesomeIcon icon={faEllipsisVertical} color="#444444" />
+                        <FontAwesomeIcon icon={faEllipsisVertical} color="#aaaaaa" />
                     </div>
                     {
                         actionsSelect === tableProps.row.index &&
@@ -104,7 +104,9 @@ const CurrentTransactions = () => {
                     data={transactions}
                 />
             }
-            <ButtonMain text="Add a New Transaction" onClick={() => navigate("/transaction")} />
+            <div className="center">
+                <ButtonMain text="Add a New Transaction" onClick={() => navigate("/transaction")} />
+            </div>
         </div>
     )
 }

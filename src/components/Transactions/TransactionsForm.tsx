@@ -3,6 +3,7 @@ import Transaction, {emptyTransaction} from "../helpers/models";
 import React, {useEffect, useState} from "react";
 import {createResource, getResource, updateResource} from "../../config";
 import {useNavigate, useParams} from "react-router-dom";
+import ButtonMain from "../common/ButtonMain";
 
 
 const TransactionsForm = () => {
@@ -82,8 +83,8 @@ const TransactionsForm = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div className="button-group">
-                <button type="button" onClick={sendData}>Submit</button>
+            <div className="center">
+                <ButtonMain text="Submit" onClick={sendData} />
             </div>
         </div>
     )

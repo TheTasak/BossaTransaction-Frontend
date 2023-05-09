@@ -6,6 +6,7 @@ import './Dashboard.scss';
 import Tooltip from "../common/Tooltip";
 
 import {ResponsiveTreeMap} from '@nivo/treemap';
+import Table from "../common/Table";
 
 
 const Dashboard = () => {
@@ -25,6 +26,13 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
+            {
+                shares !== undefined && (
+                    <div className="widget-simple">
+                        {shares.map(share => <div key={share.name}>{share.name + " " + share.shares}</div>)}
+                    </div>
+                )
+            }
             {
                 shares !== undefined && (
                     <div className="chart-div">

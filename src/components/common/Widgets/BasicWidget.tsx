@@ -1,6 +1,8 @@
+import {resourceParams} from "../../helpers/helpers";
 
 
-const BasicWidget = () => {
+const BasicWidget = (props: resourceParams) => {
+    console.log(props)
     return (
         <div>
 

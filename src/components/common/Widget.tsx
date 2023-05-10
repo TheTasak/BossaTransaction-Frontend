@@ -6,8 +6,8 @@ const Widget = ({position, size, style, children}: {position: {row: number, colu
             className="widget"
             style=
                 {{
-                    backgroundColor: style.backgroundColor,
-                    gridArea: `${position.row} / ${position.column} / ${(position.row+size.width)} / ${(position.column+size.height)}`
+                    gridArea: `${position.row} / ${position.column} / ${(position.row+size.width)} / ${(position.column+size.height)}`,
+                    ...style
                 }}
         >
             {children}

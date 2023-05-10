@@ -11,7 +11,7 @@ export interface layoutWidget {
     width: number;
     height: number;
     backgroundColor?: string;
-    properties?: resourceParams[];
+    properties?: resourceParams;
 }
 
 export interface layoutObject {
@@ -26,12 +26,12 @@ enum WidgetTypes {
 
 export const loadLayout = (layout: layoutObject): JSX.Element[] => {
     let map = new Map();
-    map.set(WidgetTypes.BasicWidget, <BasicWidget />);
+    map.set(WidgetTypes.BasicWidget, BasicWidget);
 
 
     return layout.widgets.map(widget => {
-        let component : ReactElement = map.get(widget.name);
-        //component.props = widget.properties;
+        let element = map.get(widget.name);
+        let component : ReactElement = React.createElement(element, widget.properties);
 
         let sizeObject = {
             width: widget.width,

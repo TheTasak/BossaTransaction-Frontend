@@ -4,7 +4,7 @@ import {getResource} from "../../config";
 import {calculateCurrentShares, WalletShare} from "../helpers/calculate";
 import './Dashboard.scss';
 import Tooltip from "../common/Tooltip";
-import {exportLayoutObject, layoutObject, layoutWidget, loadLayout} from "../helpers/layout";
+import {layoutObject, loadLayout} from "../helpers/layout";
 
 import {ResponsiveTreeMap} from '@nivo/treemap';
 import {Simulate} from "react-dom/test-utils";
@@ -29,7 +29,10 @@ const Dashboard = () => {
                 row: 1,
                 width: 1,
                 height: 1,
-                backgroundColor: "white"
+                backgroundColor: "white",
+                properties: {
+                    test: 'test'
+                }
             }
         ],
         columns: 2,

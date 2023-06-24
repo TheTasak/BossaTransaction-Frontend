@@ -1,26 +1,23 @@
 import {useEffect, useState} from "react";
 import Transaction from "../helpers/models";
-import {getResource} from "../../config";
-import {calculateCurrentShares, WalletShare} from "../helpers/calculate";
+import {getResource, updateResource} from "../../config";
+import {calculateCurrentShares, sortTransactionsByDate, WalletShare} from "../helpers/calculate";
 import './Dashboard.scss';
 import Tooltip from "../common/Tooltip";
-import {layoutObject, loadLayout} from "../helpers/layout";
+import {exportLayoutObject, layoutObject, loadLayout} from "../helpers/layout";
 
 import {ResponsiveTreeMap} from '@nivo/treemap';
 import {Simulate} from "react-dom/test-utils";
-import load = Simulate.load;
+import ButtonMain from "../common/ButtonMain";
 
 
 const Dashboard = () => {
+    const id = 1; //TEMPORARY !!!
+
     const [transactions, setTransactions] = useState<Transaction[] | undefined>(undefined);
     const [shares, setShares] = useState<WalletShare[] | undefined>(undefined);
     const [layout, setLayout] = useState<JSX.Element[] | undefined>(undefined);
-
-    useEffect(() => {
-        getResource("/transactions", setTransactions);
-    }, []);
-
-    const layoutObject : layoutObject = {
+    const [layoutObject, setLayoutObject] = useState<layoutObject | undefined>({
         widgets: [
             {
                 id: 1,
@@ -35,85 +32,111 @@ const Dashboard = () => {
                 }
             }
         ],
-        columns: 2,
-        rows: 2,
-    };
+        columns: 3,
+        rows: 3,
+    });
+
+    useEffect(() => {
+        getResource("/transactions", (data : Transaction[]) => {
+            setTransactions(sortTransactionsByDate(data));
+        });
+        getResource("/layouts", (data: any) => console.log(data));
+    }, []);
 
     useEffect(() => {
         if (transactions !== undefined) {
             setShares(calculateCurrentShares(transactions));
             console.log(shares);
-            setLayout(loadLayout(layoutObject))
+            if(layoutObject !== undefined) {
+                setLayout(loadLayout(layoutObject))
+            }
         }
     }, [transactions]);
 
-    return (
-        <div className="dashboard">
-            {
-                layout !== undefined && (
-                    layout
-                )
-            }
-            {/*{*/}
-            {/*    shares !== undefined && (*/}
-            {/*        <div className="widget-simple">*/}
-            {/*            {shares.map(share => <div key={share.name}>{share.name + " " + share.shares}</div>)}*/}
-            {/*        </div>*/}
-            {/*    )*/}
-            {/*}*/}
-            {/*{*/}
-            {/*    shares !== undefined && (*/}
-            {/*        <div className="chart-div">*/}
-            {/*            <ResponsiveTreeMap*/}
-            {/*                data={*/}
-            {/*                    {*/}
-            {/*                        name: "root",*/}
-            {/*                        children: shares*/}
-            {/*                    }*/}
-            {/*                }*/}
-            {/*                theme={*/}
-            {/*                    {*/}
-            {/*                        fontSize: 20*/}
-            {/*                    }*/}
-            {/*                }*/}
-            {/*                tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}*/}
-            {/*                identity="name"*/}
-            {/*                leavesOnly={true}*/}
-            {/*                value="totalPrice"*/}
-            {/*                valueFormat=">-.02s"*/}
-            {/*                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}*/}
-            {/*                label="id"*/}
-            {/*                labelSkipSize={12}*/}
-            {/*                parentLabelPosition="left"*/}
-            {/*            />*/}
-            {/*            <ResponsiveTreeMap*/}
-            {/*                data={*/}
-            {/*                    {*/}
-            {/*                        name: "root",*/}
-            {/*                        children: shares*/}
-            {/*                    }*/}
-            {/*                }*/}
-            {/*                theme={*/}
-            {/*                    {*/}
-            {/*                        fontSize: 20*/}
-            {/*                    }*/}
-            {/*                }*/}
-            {/*                tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}*/}
-            {/*                identity="name"*/}
-            {/*                leavesOnly={true}*/}
-            {/*                value="earnings"*/}
-            {/*                valueFormat=">-.02s"*/}
-            {/*                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}*/}
-            {/*                label="id"*/}
-            {/*                labelSkipSize={12}*/}
-            {/*                parentLabelPosition="left"*/}
-            {/*            />*/}
-            {/*        </div>*/}
-            {/*    )*/}
-            {/*}*/}
+    const saveLayout = () => {
+        if(layoutObject !== undefined) {
+            const stringifyLayout = exportLayoutObject(layoutObject);
+            updateResource(`/layout/${id}`, {content: stringifyLayout}, () => {
+                console.log('successful update')
+            });
+        }
+    }
 
+    return (
+        <div>
+            <div
+                className="dashboard"
+                style={{
+                    gridTemplateColumns: `repeat(${ layoutObject !== undefined ? layoutObject.columns : 1}, 1fr)`,
+                    gridTemplateRows: `repeat(${ layoutObject !== undefined ? layoutObject.rows : 1}, 1fr)`
+                }}
+            >
+                {
+                    layout !== undefined && (
+                        layout
+                    )
+                }
+            </div>
+            <ButtonMain text="Save Layout" onClick={saveLayout} />
         </div>
     )
+        {/*{*/}
+        {/*    shares !== undefined && (*/}
+        {/*        <div className="widget-simple">*/}
+        {/*            {shares.map(share => <div key={share.name}>{share.name + " " + share.shares}</div>)}*/}
+        {/*        </div>*/}
+        {/*    )*/}
+        {/*}*/}
+        {/*{*/}
+        {/*    shares !== undefined && (*/}
+        {/*        <div className="chart-div">*/}
+        {/*            <ResponsiveTreeMap*/}
+        {/*                data={*/}
+        {/*                    {*/}
+        {/*                        name: "root",*/}
+        {/*                        children: shares*/}
+        {/*                    }*/}
+        {/*                }*/}
+        {/*                theme={*/}
+        {/*                    {*/}
+        {/*                        fontSize: 20*/}
+        {/*                    }*/}
+        {/*                }*/}
+        {/*                tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}*/}
+        {/*                identity="name"*/}
+        {/*                leavesOnly={true}*/}
+        {/*                value="totalPrice"*/}
+        {/*                valueFormat=">-.02s"*/}
+        {/*                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}*/}
+        {/*                label="id"*/}
+        {/*                labelSkipSize={12}*/}
+        {/*                parentLabelPosition="left"*/}
+        {/*            />*/}
+        {/*            <ResponsiveTreeMap*/}
+        {/*                data={*/}
+        {/*                    {*/}
+        {/*                        name: "root",*/}
+        {/*                        children: shares*/}
+        {/*                    }*/}
+        {/*                }*/}
+        {/*                theme={*/}
+        {/*                    {*/}
+        {/*                        fontSize: 20*/}
+        {/*                    }*/}
+        {/*                }*/}
+        {/*                tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}*/}
+        {/*                identity="name"*/}
+        {/*                leavesOnly={true}*/}
+        {/*                value="earnings"*/}
+        {/*                valueFormat=">-.02s"*/}
+        {/*                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}*/}
+        {/*                label="id"*/}
+        {/*                labelSkipSize={12}*/}
+        {/*                parentLabelPosition="left"*/}
+        {/*            />*/}
+        {/*        </div>*/}
+        {/*    )*/}
+        {/*}*/}
 }
 
 export default Dashboard;

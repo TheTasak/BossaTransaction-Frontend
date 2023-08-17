@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {createResource, getResource, updateResource} from "../../config";
 import {useNavigate, useParams} from "react-router-dom";
 import ButtonMain from "../common/ButtonMain";
+import transactions from "./Transactions";
 
 
 const TransactionsForm = () => {

@@ -1,7 +1,9 @@
 import {resourceParams} from "./helpers";
 import BasicWidget from "../common/Widgets/BasicWidget";
+import BasicChartWidget from "../common/Widgets/BasicChartWidget";
 import Widget from "../common/Widget";
 import React, {ReactElement} from "react";
+import {WalletShare} from "./calculate";
 
 export interface layoutWidget {
     id: number;
@@ -22,16 +24,19 @@ export interface layoutObject {
 
 enum WidgetTypes {
     BasicWidget = "basic",
+    BasicChartWidget = "basic_chart"
 }
 
-export const loadLayout = (layout: layoutObject): JSX.Element[] => {
+export const loadLayout = (layout: layoutObject, data: WalletShare[]): JSX.Element[] => {
     let map = new Map();
     map.set(WidgetTypes.BasicWidget, BasicWidget);
+    map.set(WidgetTypes.BasicChartWidget, BasicChartWidget);
 
 
     return layout.widgets.map(widget => {
         let element = map.get(widget.name);
-        let component : ReactElement = React.createElement(element, widget.properties);
+        let properties = {...widget.properties, data};
+        let component : ReactElement = React.createElement(element, properties);
 
         let sizeObject = {
             width: widget.width,

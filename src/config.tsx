@@ -25,7 +25,7 @@ const deleteResource = async (type: string, params?: resourceParams) => {
     return response;
 }
 
-const updateResource = async (type: string, data: resourceParams, callback?: any) => {
+const updateResource = async (type: string, data: any, callback?: any) => {
     const response = await instance.put(type, data);
     if (typeof callback === undefined) {
         return response.data;
@@ -33,7 +33,8 @@ const updateResource = async (type: string, data: resourceParams, callback?: any
     callback(response.data);
 }
 
-const createResource = async (type: string, data: resourceParams, callback?: any) => {
+const createResource = async (type: string, data: any, callback?: any) => {
+    console.log(data)
     const response = await instance.post(type, data);
     if (typeof callback === undefined) {
         return response.data;

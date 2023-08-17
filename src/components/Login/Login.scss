@@ -1,0 +1,36 @@
+@import "../../colors";
+
+.login-wrapper {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .error {
+    color: $error;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.25em;
+    letter-spacing: 0.08em;
+  }
+  button {
+    transition: 0.3s ease-in-out;
+    padding: 0.8em 1.5em;
+    border: none;
+    border-radius: 1em;
+    color: $fontLight;
+    background-color: $headerBorder;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: 0.08em;
+    font-size: 0.9em;
+    font-weight: 600;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $headerBackground;
+    }
+  }
+
+}

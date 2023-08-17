@@ -3,11 +3,8 @@ import Transaction from "../helpers/models";
 import {getResource, updateResource} from "../../config";
 import {calculateCurrentShares, sortTransactionsByDate, WalletShare} from "../helpers/calculate";
 import './Dashboard.scss';
-import Tooltip from "../common/Tooltip";
 import {exportLayoutObject, layoutObject, loadLayout} from "../helpers/layout";
 
-import {ResponsiveTreeMap} from '@nivo/treemap';
-import {Simulate} from "react-dom/test-utils";
 import ButtonMain from "../common/ButtonMain";
 
 
@@ -22,6 +19,18 @@ const Dashboard = () => {
             {
                 id: 1,
                 name: 'basic',
+                column: 1,
+                row: 1,
+                width: 1,
+                height: 1,
+                backgroundColor: "black",
+                properties: {
+                    test: 'test'
+                }
+            },
+            {
+                id: 2,
+                name: 'basic_chart',
                 column: 2,
                 row: 1,
                 width: 1,
@@ -47,8 +56,8 @@ const Dashboard = () => {
         if (transactions !== undefined) {
             setShares(calculateCurrentShares(transactions));
             console.log(shares);
-            if(layoutObject !== undefined) {
-                setLayout(loadLayout(layoutObject))
+            if(shares !== undefined && layoutObject !== undefined) {
+                setLayout(loadLayout(layoutObject, shares));
             }
         }
     }, [transactions]);
@@ -80,63 +89,6 @@ const Dashboard = () => {
             <ButtonMain text="Save Layout" onClick={saveLayout} />
         </div>
     )
-        {/*{*/}
-        {/*    shares !== undefined && (*/}
-        {/*        <div className="widget-simple">*/}
-        {/*            {shares.map(share => <div key={share.name}>{share.name + " " + share.shares}</div>)}*/}
-        {/*        </div>*/}
-        {/*    )*/}
-        {/*}*/}
-        {/*{*/}
-        {/*    shares !== undefined && (*/}
-        {/*        <div className="chart-div">*/}
-        {/*            <ResponsiveTreeMap*/}
-        {/*                data={*/}
-        {/*                    {*/}
-        {/*                        name: "root",*/}
-        {/*                        children: shares*/}
-        {/*                    }*/}
-        {/*                }*/}
-        {/*                theme={*/}
-        {/*                    {*/}
-        {/*                        fontSize: 20*/}
-        {/*                    }*/}
-        {/*                }*/}
-        {/*                tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}*/}
-        {/*                identity="name"*/}
-        {/*                leavesOnly={true}*/}
-        {/*                value="totalPrice"*/}
-        {/*                valueFormat=">-.02s"*/}
-        {/*                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}*/}
-        {/*                label="id"*/}
-        {/*                labelSkipSize={12}*/}
-        {/*                parentLabelPosition="left"*/}
-        {/*            />*/}
-        {/*            <ResponsiveTreeMap*/}
-        {/*                data={*/}
-        {/*                    {*/}
-        {/*                        name: "root",*/}
-        {/*                        children: shares*/}
-        {/*                    }*/}
-        {/*                }*/}
-        {/*                theme={*/}
-        {/*                    {*/}
-        {/*                        fontSize: 20*/}
-        {/*                    }*/}
-        {/*                }*/}
-        {/*                tooltip={(e) => <Tooltip name={e.node.label} value={e.node.formattedValue} color={e.node.color}/>}*/}
-        {/*                identity="name"*/}
-        {/*                leavesOnly={true}*/}
-        {/*                value="earnings"*/}
-        {/*                valueFormat=">-.02s"*/}
-        {/*                margin={{ top: 10, right: 10, bottom: 10, left: 10 }}*/}
-        {/*                label="id"*/}
-        {/*                labelSkipSize={12}*/}
-        {/*                parentLabelPosition="left"*/}
-        {/*            />*/}
-        {/*        </div>*/}
-        {/*    )*/}
-        {/*}*/}
 }
 
 export default Dashboard;

@@ -81,13 +81,13 @@ body {
     position: absolute;
     top: 40px;
     min-width: 230px;
-    z-index: 1;
     border: 1px solid $borderLight;
     background-color: $backgroundLight;
     padding: 8px 0;
     border-radius: 5px;
 
     button {
+      z-index: 5;
       width: 100%;
       background-color: $backgroundLight;
       transition: background-color 0.2s ease-out;

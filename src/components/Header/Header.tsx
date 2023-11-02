@@ -7,6 +7,8 @@ import "./Header.scss";
 import React, {useEffect, useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
+import CSRFToken from "../../auth/CSRFToken";
+import axios from "axios";
 
 const headerMenuWidthMax = 600;
 
@@ -22,17 +24,16 @@ const Header = () => {
     const { logout } = React.useContext(AuthContext) as AuthContextType;
 
     const handleLogout = async () => {
-        const response = await fetch(
-            "http://127.0.0.1:3000/logout",
+        const response = await axios.delete(
+            "/api/logout",
             {
-                method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRFToken(document.cookie)
                 }
             }
         ).then(data => data);
-
-        if (response && response.ok) {
+        if (response && response.status === 204) {
             logout();
         } else {
             console.error("Couldn't logout user");

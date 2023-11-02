@@ -1,9 +1,10 @@
 import {ResponsiveTreeMap} from '@nivo/treemap';
+import React from 'react';
 import Tooltip from "../Tooltip";
 
 const BasicChartWidget = (props: any) => {
     return (
-        <div>
+        <React.Fragment>
             {
                 props.data !== undefined && (
                     <div className="chart-div">
@@ -32,7 +33,7 @@ const BasicChartWidget = (props: any) => {
                     </div>
                 )
             }
-        </div>
+        </React.Fragment>
     )
 }
 

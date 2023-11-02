@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Transaction from "../helpers/models";
 import {getResource, updateResource} from "../../config";
 import {calculateCurrentShares, sortTransactionsByDate, WalletShare} from "../helpers/calculate";
@@ -7,6 +7,8 @@ import {exportLayoutObject, layoutObject, loadLayout} from "../helpers/layout";
 
 import ButtonMain from "../common/ButtonMain";
 
+import {LayoutContext, LayoutContextType} from "./LayoutProvider";
+
 
 const Dashboard = () => {
     const id = 1; //TEMPORARY !!!
@@ -14,36 +16,8 @@ const Dashboard = () => {
     const [transactions, setTransactions] = useState<Transaction[] | undefined>(undefined);
     const [shares, setShares] = useState<WalletShare[] | undefined>(undefined);
     const [layout, setLayout] = useState<JSX.Element[] | undefined>(undefined);
-    const [layoutObject, setLayoutObject] = useState<layoutObject | undefined>({
-        widgets: [
-            {
-                id: 1,
-                name: 'basic',
-                column: 1,
-                row: 1,
-                width: 1,
-                height: 1,
-                backgroundColor: "black",
-                properties: {
-                    test: 'test'
-                }
-            },
-            {
-                id: 2,
-                name: 'basic_chart',
-                column: 2,
-                row: 1,
-                width: 1,
-                height: 1,
-                backgroundColor: "white",
-                properties: {
-                    test: 'test'
-                }
-            }
-        ],
-        columns: 3,
-        rows: 3,
-    });
+
+    const {layoutObject} = React.useContext(LayoutContext) as LayoutContextType;
 
     useEffect(() => {
         getResource("/transactions", (data : Transaction[]) => {
@@ -60,7 +34,7 @@ const Dashboard = () => {
                 setLayout(loadLayout(layoutObject, shares));
             }
         }
-    }, [transactions]);
+    }, [transactions, layoutObject]);
 
     const saveLayout = () => {
         if(layoutObject !== undefined) {

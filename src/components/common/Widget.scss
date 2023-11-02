@@ -1,0 +1,35 @@
+@import "../../colors";
+
+.widget {
+  position: relative;
+  .widget--options {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    transition: opacity 0.33s ease-in;
+    background-color: $headerBackground;
+
+
+    opacity: 0;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+    &.show {
+      opacity: 1;
+    }
+
+    .widget--options-group {
+      display: flex;
+      margin: 0 0.25em;
+    }
+
+    .widget--option {
+      margin: 0 0.25em;
+      cursor: pointer;
+    }
+  }
+}
+
+

@@ -2,22 +2,25 @@ import React, {useState} from "react";
 import { UserToken, AuthContext, AuthContextType} from '../../auth/AuthProvider';
 import "./Login.scss";
 import ButtonMain from "../common/ButtonMain";
+import CSRFToken from "../../auth/CSRFToken";
+import axios from 'axios';
 
 type Credentials = {
     username: string|null;
     password: string|null;
 }
 async function getToken(credentials: Credentials): Promise<UserToken> {
-    return fetch(
-        "http://127.0.0.1:3000/login",
+    return axios.post(
+        "/api/login",
         {
-            method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': CSRFToken(document.cookie)
             },
-            body: JSON.stringify(credentials)
+            username: credentials.username,
+            password: credentials.password
         }
-    ).then(data => data.json());
+    ).then(data => data.data);
 }
 
 const Login = () => {
@@ -28,11 +31,12 @@ const Login = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
         const token = await getToken({
             username,
             password
         });
-        console.log(token)
+        console.log(token.errors)
         if (token.errors?.length > 0) {
             setErrors(token.errors[0]);
             return;

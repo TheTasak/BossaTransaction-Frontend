@@ -1,6 +1,7 @@
 import {resourceParams} from "./helpers";
 import BasicWidget from "../common/Widgets/BasicWidget";
 import BasicChartWidget from "../common/Widgets/BasicChartWidget";
+import HistogramWidget from "../common/Widgets/HistogramWidget";
 import Widget from "../common/Widget";
 import React, {ReactElement} from "react";
 import {WalletShare} from "./calculate";
@@ -22,15 +23,21 @@ export interface layoutObject {
     rows: number;
 }
 
+export const ItemTypes = {
+    WIDGET: 'widget'
+}
+
 enum WidgetTypes {
     BasicWidget = "basic",
-    BasicChartWidget = "basic_chart"
+    BasicChartWidget = "basic_chart",
+    HistogramWidget = "histogram"
 }
 
 export const loadLayout = (layout: layoutObject, data: WalletShare[]): JSX.Element[] => {
     let map = new Map();
     map.set(WidgetTypes.BasicWidget, BasicWidget);
     map.set(WidgetTypes.BasicChartWidget, BasicChartWidget);
+    map.set(WidgetTypes.HistogramWidget, HistogramWidget);
 
 
     return layout.widgets.map(widget => {
@@ -53,7 +60,7 @@ export const loadLayout = (layout: layoutObject, data: WalletShare[]): JSX.Eleme
         }
 
         return (
-            <Widget key={widget.id} position={positionObject} size={sizeObject} style={styleObject}>
+            <Widget id={widget.id} key={widget.id} position={positionObject} size={sizeObject} style={styleObject}>
                 {component}
             </Widget>
         )

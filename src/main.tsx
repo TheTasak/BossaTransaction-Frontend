@@ -11,6 +11,7 @@ import TransactionsForm from "./components/Transactions/TransactionsForm";
 import HomeLayout from "./components/common/HomeLayout";
 import AuthLayout from "./components/common/AuthLayout";
 import ProtectedLayout from "./components/common/ProtectedLayout";
+import LayoutProvider from './components/Dashboard/LayoutProvider';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -19,7 +20,7 @@ const router = createBrowserRouter(
                 <Route path="/login" element={<Login />} />
             </Route>
             <Route element={<ProtectedLayout />}>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<LayoutProvider><Dashboard /></LayoutProvider>} />
                 <Route path="/transactions" element={<CurrentTransactions />} />
                 <Route path="/transactions/load" element={<Transactions />} />
                 <Route path="/transaction" element={<TransactionsForm />} />

@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
     const navigate = useNavigate();
 
     const login = async (token: UserToken) => {
-        console.log(token)
         setToken(token);
         navigate("/");
     };

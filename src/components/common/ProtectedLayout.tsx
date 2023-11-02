@@ -3,6 +3,8 @@ import Footer from "../Footer/Footer";
 import Page from './Page';
 import {Navigate, Outlet} from "react-router-dom";
 import {useAuth} from "../../auth/AuthProvider";
+import React from "react";
+
 
 const ProtectedLayout = () => {
     const auth = useAuth();

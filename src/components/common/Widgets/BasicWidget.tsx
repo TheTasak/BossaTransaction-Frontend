@@ -1,7 +1,8 @@
+import React from "react";
 
 const BasicWidget = (props: any) => {
     return (
-        <div>
+        <React.Fragment>
             {
                 props.data !== undefined && (
                     <div className="widget-simple">
@@ -9,7 +10,7 @@ const BasicWidget = (props: any) => {
                     </div>
                 )
             }
-        </div>
+        </React.Fragment>
     )
 }
 

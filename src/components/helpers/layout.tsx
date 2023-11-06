@@ -70,4 +70,36 @@ export const loadLayout = (layout: layoutObject, data: WalletShare[]): JSX.Eleme
 export const exportLayoutObject = (layout: layoutObject): string => {
     return JSON.stringify(layout);
 }
+// TODO optional argument to exclude given widget from state
+const calculateLayoutState = (layout: layoutObject): number[][] => {
+    let array = Array<number>(layout.rows).fill(0).map(x => Array<number>(layout.columns).fill(0));
+    layout.widgets.forEach((widget) => {
+        for (let x = widget.column; x < widget.column+widget.width; x++) {
+            for (let y = widget.row; y < widget.row+widget.height; y++) {
+                array[y-1][x-1] = 1;
+            }
+        }
+    })
+    return array;
+}
 
+export const checkLayoutCollisions = (layout: layoutObject, newPosition: any): boolean => {
+    if (!layout) {
+        return true;
+    }
+
+    const layoutState = calculateLayoutState(layout);
+    console.log(layoutState);
+    console.log(newPosition)
+
+    for (let x = newPosition.column; x < newPosition.column+newPosition.width; x++) {
+        for (let y = newPosition.row; y < newPosition.row+newPosition.height; y++) {
+            if (layoutState[y-1][x-1] === 1) {
+                console.log("error on ", y-1, x-1)
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

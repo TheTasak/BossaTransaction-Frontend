@@ -1,5 +1,5 @@
 import React, {createContext, ReactElement, useContext, useMemo, useState} from "react";
-import {layoutObject} from "../helpers/layout";
+import {checkLayoutCollisions, layoutObject} from "../helpers/layout";
 
 export type LayoutContextType = {
     layoutObject: layoutObject | undefined;
@@ -52,7 +52,7 @@ const LayoutProvider = ({ children }: { children: ReactElement }) => {
             }
         ],
         columns: 3,
-        rows: 3,
+        rows: 4,
     });
 
     const removeWidget = (id: number) => {
@@ -71,31 +71,28 @@ const LayoutProvider = ({ children }: { children: ReactElement }) => {
         if (!currentWidget || !layoutObject) {
             return;
         }
+        let copyWidget = {...currentWidget};
 
         switch (direction) {
             case "down":
-                if (currentWidget.height+1 <= layoutObject.rows) {
-                    currentWidget.height += 1;
-                }
+                copyWidget.height += 1;
                 break;
             case "up":
-                if (currentWidget.row-1 >= 0) {
-                    currentWidget.row -= 1;
-                }
+                copyWidget.height -= 1;
                 break;
             case "right":
-                if (currentWidget.width+1 <= layoutObject.columns) {
-                    currentWidget.width += 1;
-                }
+                copyWidget.width += 1;
                 break;
             case "left":
-                if (currentWidget.column-1 >= 0) {
-                    currentWidget.column -= 1;
-                }
+                copyWidget.width -= 1;
                 break;
         }
 
-        let widgets = [currentWidget];
+        if (checkLayoutCollisions(layoutObject, copyWidget)) {
+            return;
+        }
+
+        let widgets = [copyWidget];
         if (otherWidgets) {
             widgets.push(...otherWidgets);
         }
@@ -113,31 +110,27 @@ const LayoutProvider = ({ children }: { children: ReactElement }) => {
         if (!currentWidget || !layoutObject) {
             return;
         }
+        let copyWidget = {...currentWidget};
 
         switch (direction) {
             case "down":
-                if (currentWidget.row+1 <= layoutObject.rows) {
-                    currentWidget.row += 1;
-                }
+                copyWidget.row += 1;
                 break;
             case "up":
-                if (currentWidget.row-1 >= 0) {
-                    currentWidget.row -= 1;
-                }
+                copyWidget.row -= 1;
                 break;
             case "right":
-                if (currentWidget.column+1 <= layoutObject.columns) {
-                    currentWidget.column += 1;
-                }
+                copyWidget.column += 1;
                 break;
             case "left":
-                if (currentWidget.column-1 >= 0) {
-                    currentWidget.column -= 1;
-                }
+                copyWidget.column -= 1;
                 break;
         }
+        if (checkLayoutCollisions(layoutObject, copyWidget)) {
+            return;
+        }
 
-        let widgets = [currentWidget];
+        let widgets = [copyWidget];
         if (otherWidgets) {
             widgets.push(...otherWidgets);
         }
